@@ -1,0 +1,108 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: anomaly_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - anomaly_net
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: anomaly_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: anomaly_user
+      POSTGRES_PASSWORD: anomaly_password
+      POSTGRES_DB: anomaly_detection_development
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U anomaly_user -d anomaly_detection_development"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - anomaly_net
+
+  dashboard:
+    build:
+      context: ../dashboard
+    container_name: anomaly_dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://anomaly_user:anomaly_password@postgres:5432/anomaly_detection_development
+      REDIS_URL: redis://redis:6379/0
+      RAILS_ENV: development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - anomaly_net
+
+  python-ml:
+    build:
+      context: ../engines/python-ml
+    container_name: anomaly_python_ml
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TRAIN_ON_STARTUP: "true"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - anomaly_net
+
+  cpp-engine:
+    build:
+      context: ../engines/cpp-realtime
+    container_name: anomaly_cpp_engine
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - anomaly_net
+
+  nim-orchestrator:
+    build:
+      context: ../orchestrator
+    container_name: anomaly_nim_orchestrator
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      DASHBOARD_URL: http://dashboard:3000
+    depends_on:
+      redis:
+        condition: service_healthy
+      dashboard:
+        condition: service_started
+    networks:
+      - anomaly_net
+
+volumes:
+  redis_data:
+    driver: local
+  pg_data:
+    driver: local
+
+networks:
+  anomaly_net:
+    driver: bridge

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anomaly Detection – Options</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page-header">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 14l-3-3 1.41-1.41L11 12.17l4.59-4.58L17 9l-6 6z"/></svg>
+      </div>
+      <div>
+        <div class="page-title">Extension Options</div>
+        <div class="page-sub">Anomaly Detection System · Browser Telemetry</div>
+      </div>
+    </div>
+
+    <!-- API Configuration -->
+    <div class="card">
+      <div class="card-title">API Configuration</div>
+
+      <div class="form-row">
+        <label for="apiEndpoint">Telemetry API Endpoint</label>
+        <input type="url" id="apiEndpoint" placeholder="http://localhost:3000/api/v1/telemetry" />
+        <div class="hint">The Rails API endpoint that receives batched telemetry events.</div>
+      </div>
+
+      <div class="form-row">
+        <label for="dashboardUrl">Dashboard URL</label>
+        <input type="url" id="dashboardUrl" placeholder="http://localhost:3000" />
+        <div class="hint">Used by the popup's "Open Dashboard" action.</div>
+      </div>
+
+      <div class="form-row">
+        <label for="authToken">Authentication Token (optional)</label>
+        <input type="password" id="authToken" placeholder="Bearer token…" />
+        <div class="hint">If set, sent as Authorization: Bearer &lt;token&gt; header.</div>
+      </div>
+    </div>
+
+    <!-- Behaviour -->
+    <div class="card">
+      <div class="card-title">Behaviour</div>
+
+      <div class="toggle-row-opt">
+        <div class="toggle-info">
+          <div class="toggle-name">Enable Monitoring</div>
+          <div class="toggle-desc">Master switch – disabling stops all event collection.</div>
+        </div>
+        <label class="sw">
+          <input type="checkbox" id="optMonitoring" checked />
+          <div class="sw-track"></div>
+        </label>
+      </div>
+
+      <div class="toggle-row-opt">
+        <div class="toggle-info">
+          <div class="toggle-name">Track XHR Requests</div>
+          <div class="toggle-desc">Intercept XMLHttpRequest calls in content scripts.</div>
+        </div>
+        <label class="sw">
+          <input type="checkbox" id="optXhr" checked />
+          <div class="sw-track"></div>
+        </label>
+      </div>
+
+      <div class="toggle-row-opt">
+        <div class="toggle-info">
+          <div class="toggle-name">Track Fetch Requests</div>
+          <div class="toggle-desc">Intercept window.fetch() calls in content scripts.</div>
+        </div>
+        <label class="sw">
+          <input type="checkbox" id="optFetch" checked />
+          <div class="sw-track"></div>
+        </label>
+      </div>
+
+      <div class="toggle-row-opt">
+        <div class="toggle-info">
+          <div class="toggle-name">Track DOM Mutations</div>
+          <div class="toggle-desc">Report high-rate DOM mutation bursts.</div>
+        </div>
+        <label class="sw">
+          <input type="checkbox" id="optMutations" checked />
+          <div class="sw-track"></div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Flush Settings -->
+    <div class="card">
+      <div class="card-title">Telemetry Flush Settings</div>
+
+      <div class="form-row">
+        <label for="flushInterval">Flush Interval (seconds)</label>
+        <input type="number" id="flushInterval" value="5" min="1" max="60" />
+        <div class="hint">How often pending events are sent to the API.</div>
+      </div>
+
+      <div class="form-row">
+        <label for="batchSize">Max Batch Size</label>
+        <input type="number" id="batchSize" value="50" min="5" max="500" />
+        <div class="hint">Triggers an immediate flush when reached.</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="btnReset">Reset Defaults</button>
+      <button class="btn btn-primary" id="btnSave">Save Settings</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">✓ Settings saved</div>
+
+  <script src="options.js"></script>
+</body>
+</html>

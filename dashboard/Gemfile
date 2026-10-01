@@ -1,0 +1,63 @@
+source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby "3.2.3"
+
+# Core Rails framework
+gem "rails", "~> 7.1"
+
+# PostgreSQL adapter
+gem "pg", "~> 1.1"
+
+# Puma web server
+gem "puma", ">= 5.0"
+
+# Asset pipeline
+gem "propshaft"
+
+# Import maps (Rails 8 default)
+gem "importmap-rails"
+
+# Turbo & Stimulus (for dashboard interactivity)
+gem "turbo-rails"
+gem "stimulus-rails"
+
+# ActionCable for WebSocket push alerts
+# (included in Rails core — no separate gem needed)
+
+# Redis adapter for ActionCable pub/sub
+gem "redis", "~> 5.0"
+
+# Background jobs via Sidekiq
+gem "sidekiq", "~> 7.0"
+
+# JWT authentication for API + browser extension
+gem "jwt", "~> 2.8"
+
+# CORS handling for browser extension
+gem "rack-cors"
+
+# BCrypt for password hashing
+gem "bcrypt", "~> 3.1.7"
+
+# JSON serialization
+gem "jbuilder"
+
+# HTTP client (for Orchestrator callback verification)
+gem "faraday"
+
+# Environment variables
+gem "dotenv-rails", groups: [:development, :test]
+
+# Windows timezone support
+gem "tzinfo-data", platforms: %i[windows jruby]
+
+group :development, :test do
+  gem "debug", platforms: %i[mri mswin mswin64 mingw x64_mingw]
+  gem "pry-rails"
+end
+
+group :development do
+  gem "web-console"
+  gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
+end

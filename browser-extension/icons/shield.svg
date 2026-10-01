@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#818cf8" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#4f46e5" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#6366f1" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Shield outer shape -->
+  <path
+    d="M50 6 L88 20 L88 52 C88 72 70 88 50 94 C30 88 12 72 12 52 L12 20 Z"
+    fill="url(#shieldGrad)"
+    filter="url(#shadow)"
+  />
+
+  <!-- Shield inner highlight -->
+  <path
+    d="M50 12 L82 24 L82 52 C82 68 66 82 50 88 C34 82 18 68 18 52 L18 24 Z"
+    fill="url(#glowGrad)"
+    opacity="0.6"
+  />
+
+  <!-- Shield border / rim -->
+  <path
+    d="M50 6 L88 20 L88 52 C88 72 70 88 50 94 C30 88 12 72 12 52 L12 20 Z"
+    fill="none"
+    stroke="#818cf8"
+    stroke-width="1.5"
+    opacity="0.7"
+    filter="url(#glow)"
+  />
+
+  <!-- Checkmark / tick icon inside shield -->
+  <g filter="url(#glow)">
+    <polyline
+      points="32,50 44,62 68,38"
+      fill="none"
+      stroke="#ffffff"
+      stroke-width="6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+</svg>

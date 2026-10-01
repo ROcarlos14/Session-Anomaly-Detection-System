@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anomaly Detection System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-text">
+      <div class="header-title">
+        <svg width="18" height="18" viewBox="0 0 100 100" style="margin-right: 6px; vertical-align: middle;">
+          <circle cx="50" cy="50" r="45" fill="#0ea5e9"/>
+          <path d="M35 35 Q 65 20 65 50 T 35 65" fill="none" stroke="#0f1117" stroke-width="12" stroke-linecap="round"/>
+        </svg>
+        AnomalyShield
+      </div>
+      <div class="header-subtitle">Browser Telemetry Active</div>
+    </div>
+    <div class="status-badge disconnected" id="statusBadge">
+      <div class="status-dot"></div>
+      <span id="statusText">—</span>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="body">
+
+    <!-- Stats row -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statEvents">—</div>
+        <div class="stat-label">Events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statAlerts">—</div>
+        <div class="stat-label">Alerts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statBatches">—</div>
+        <div class="stat-label">Batches</div>
+      </div>
+    </div>
+
+    <!-- Session ID -->
+    <div class="session-card">
+      <div class="session-label">Session</div>
+      <div class="session-value" id="sessionId" title="">—</div>
+    </div>
+
+    <!-- Queue indicator -->
+    <div class="queue-bar" id="queueBar">
+      <div>
+        <div class="queue-label">Pending Queue</div>
+        <div class="queue-progress">
+          <div class="queue-fill" id="queueFill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="queue-value" id="queueCount">0 events</div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="section-header">
+      <div class="section-title">Recent Alerts</div>
+      <span class="badge-count" id="alertCount">0</span>
+    </div>
+
+    <div class="alerts-list" id="alertsList">
+      <div class="no-alerts">
+        <div class="no-alerts-icon">🛡️</div>
+        <span>No alerts detected</span>
+      </div>
+    </div>
+
+    <!-- Last flush -->
+    <div class="flush-info">
+      Last flush: <span id="lastFlush">—</span>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="toggle-row">
+      <label class="toggle-switch">
+        <input type="checkbox" id="monitoringToggle" checked />
+        <div class="toggle-track"></div>
+      </label>
+      <span class="toggle-label" id="toggleLabel">Monitoring On</span>
+    </div>
+
+    <button class="btn-settings" id="settingsBtn">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+      </svg>
+      Options
+    </button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
